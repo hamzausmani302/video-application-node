@@ -1,0 +1,24 @@
+{
+  "name": "video-call-application",
+  "version": "1.0.0",
+  "description": "video call application using webrtc and Peer",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "video",
+    "call",
+    "communication",
+    "chota",
+    "zoom"
+  ],
+  "author": "hamza usmani",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19",
+    "socket.io": "^4.5.1"
+  }
+}
