@@ -12,8 +12,13 @@
       </script>  
     <!-- Import WebRTC adapter for compatibility with all the browsers  -->
     <script src="../js/room.js"></script>
+    <!-- Latest compiled and minified CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> -->
-    w
+    <link rel="stylesheet" href="../css/index.css">
 </head>
 <body>
     <script>
@@ -22,8 +27,13 @@
     </script>
     
     <h1 id="roomId"> <%= roomId %> </h1>
-    <div style="background-color: red;width:100;height:100" id="video-container">
-        comntainer
+    <div  class="container">
+        <div class="toast-container btn-info">
+
+        </div>
+        <div id="videoContainer" class="videoContainer container p-5">
+            <!-- <video class="embed-responsive embed-responsive-16by9" id="videoComponent"></video> -->
+        </div>
     </div>
 </body>
 </html>
