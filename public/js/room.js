@@ -14,9 +14,6 @@ $(document).ready(function(){
 let videoGrid = document.querySelector("#videoContainer");
     
 function addUserVideo(_video , stream , id=null , muted=false){
-    // let _video = document.createElement("video");
-    _video.classList.add("embed-responsive")
-    _video.classList.add("embed-responsive-16by9");
     _video.srcObject = stream;
     _video.muted = muted;
     _video.id = id;
@@ -24,20 +21,7 @@ function addUserVideo(_video , stream , id=null , muted=false){
     videoGrid.append(_video);
     _video.play()
 }
-    
-// function addUserVideoCustom(_video , stream){
-
-    // let _video = document.createElement("video");
-    // _video.classList.add("embed-responsive")
-    // _video.classList.add("embed-responsive-16by9");
-    // _video.srcObject = stream;
-    // if(id){
-    //     _video.id = id;
-    // }
-    // videoGrid.append(_video);
-    // _video.play()
-// }
-
+ 
 let count = 0;
 var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 getUserMedia({video: true,audio:true}, function(stream) {
@@ -49,16 +33,20 @@ getUserMedia({video: true,audio:true}, function(stream) {
         console.log("call came" );
         callObject.answer(stream);
         listedPeers[ callObject.peer] = callObject;
+        let video = document.createElement('video')
+                
         callObject.on("stream" , otherVideoStream=>{
             console.log("after answering display" + count);
             count +=1;
             if(count %2 == 0){
-                let video = document.createElement('video')
                 addUserVideo(video ,otherVideoStream  , callObject.peer);
             
             }    
             
             
+        })
+        callObject.on("close" , ()=>{
+            video.remove()
         })
 
     })

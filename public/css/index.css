@@ -1,6 +1,7 @@
 video{
-    width:50%;
-
+    width:300px;
+    height: 300px;
+    margin: 1px;
 }
 
 .toast-container {
@@ -10,4 +11,9 @@ video{
     height: 30;
     padding: 10;
     display: none;
+}
+
+.controls {
+    position: fixed;
+    bottom: 0px;
 }
