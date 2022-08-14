@@ -57,7 +57,7 @@ function startANewMeeting(){
 
     }
 
-    // window.location.href= "/room/create";
+    window.location.href= "/room/create";
 
 }
 

@@ -26,14 +26,33 @@
         
     </script>
     
-    <h1 id="roomId"> <%= roomId %> </h1>
-    <div  class="container">
+    <h1 id="roomId" class="text-center"> <%= roomId %> </h1>
+    <section  class="container-fluid row">
         <div class="toast-container btn-info">
-
         </div>
-        <div id="videoContainer" class="videoContainer container p-5">
+        <div class="container col-2">
+            <h3>Participants</h3>
+            <ul>
+                <li>hamza</li>
+                <li>hamza 2</li>
+                <li>hamza 1</li>
+                <li>hamza 3</li>
+                
+                <li>hamza</li>
+                <li>hamza 2</li>
+                <li>hamza 1</li>
+                <li>hamza 3</li>
+            </ul>
+        </div>
+
+        <div id="videoContainer" class="videoContainer container col-10">
             <!-- <video class="embed-responsive embed-responsive-16by9" id="videoComponent"></video> -->
         </div>
+    <section>
+    <div class="controls bg-primary text-center container-fluid">
+        <button id="toggle-mic" onclick="">MIC</button>
+        <button id="toggle-video" onclick="">VIDEO</button>
+        <button id="end-call" onclick="">END</button>
     </div>
 </body>
 </html>
