@@ -1,6 +1,10 @@
 
 let rootId;
 var listedPeers = {};
+
+let videoIsOn = true;
+let micIsOn = true;
+
 console.log("testing");
 const socket = io();
 const peer = new Peer(undefined , {
@@ -10,7 +14,24 @@ const peer = new Peer(undefined , {
 
 $(document).ready(function(){
     
+    document.getElementById("toggle-video").addEventListener('click',()=>{
+        console.log(peer.id);
+        videoIsOn = !videoIsOn;
+        if(videoIsOn ===false){
+            document.getElementById(peer.id).pause()
+        }else{
+            document.getElementById(peer.id).play()
+        }
+        
+    }) 
 
+    document.getElementById("end-call").addEventListener("click" , ()=>{
+        console.log("ending meethiong");
+        document.getElementById(peer.id).remove();
+
+        socket.close();
+        window.location.href= "/";
+    })
 let videoGrid = document.querySelector("#videoContainer");
     
 function addUserVideo(_video , stream , id=null , muted=false){
@@ -24,7 +45,8 @@ function addUserVideo(_video , stream , id=null , muted=false){
  
 let count = 0;
 var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-getUserMedia({video: true,audio:true}, function(stream) {
+// console.log(getUserMedia);
+getUserMedia({video:true , audio:true}, function(stream) {
     
     addUserVideo(document.createElement('video'),stream , rootId , true );
     
@@ -34,17 +56,19 @@ getUserMedia({video: true,audio:true}, function(stream) {
         callObject.answer(stream);
         listedPeers[ callObject.peer] = callObject;
         let video = document.createElement('video')
-                
+          
         callObject.on("stream" , otherVideoStream=>{
             console.log("after answering display" + count);
             count +=1;
             if(count %2 == 0){
                 addUserVideo(video ,otherVideoStream  , callObject.peer);
-            
+                
             }    
             
             
         })
+        
+
         callObject.on("close" , ()=>{
             video.remove()
         })
@@ -63,15 +87,19 @@ getUserMedia({video: true,audio:true}, function(stream) {
         var call = peer.call(userId , stream);
         listedPeers[userId] =call;
         let video = document.createElement("video");
+            
+
         call.on('stream' , (remoteStream)=>{
             console.log("displaying video frame remote")
             count +=1;
             if(count %2 == 0){
+                console.log(remoteStream);
                 addUserVideo(video ,remoteStream , userId);
                 
             }
             
         })
+       
         call.on('close' , ()=>{
             console.log("close");
             video.remove()
@@ -108,6 +136,8 @@ socket.on("user-disconnected" , (userId)=>{
 
 })
 
+
+
 socket.on("updatePeer" , (peers)=>{
     console.log(peers);
 })
@@ -115,4 +145,3 @@ socket.on("updatePeer" , (peers)=>{
 socket.on("connection" , ()=>{
     console.log("connceted");
 })
-

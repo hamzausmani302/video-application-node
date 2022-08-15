@@ -19,7 +19,8 @@ const sendMailCode = async (reciever ,subject , uri )=>{
         from : email,
         to : reciever,
         subject : subject,
-        text : `You are invited to meeting by ${email} at 2'o'clock at the following link:\n${uri}\n`
+        text : `You are invited to meeting by ${email} at 2'o'clock at the following link:\n${uri}\nDonot share this link with anyone\n
+        Sorry!!!\n Regards Hamza\nnaam hi kaafi`
     }
     await transporter.sendMail(options , (err , info)=>{
         if(err){

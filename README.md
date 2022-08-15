@@ -1,4 +1,4 @@
-- setup socket connection between client and server
+- setup socket connection between client and server 
 - generate random ids for each client
 - create rooms and generate ids for each room
 - when client connects, print room id and the userId
