@@ -7,6 +7,7 @@ const server = require('http').Server(app)
 const io = require('socket.io')(server);
 const { v4: uuidv4 } = require('uuid');
 const mongoose = require('mongoose'); 
+const cors =require("cors");
 const {sendMail}  = require("./mailer.js");
 const { addRoom, addResourceToRoom, getRoomById, removeResourceFromRoom } = require('./Service/DbService.js');
 const Room = require('./Schema/Room.js');
@@ -17,10 +18,19 @@ const PORT = 3001;
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
+app.use(cors())
 app.get("/" , (req,res)=>{
     res.render(path.resolve(__dirname , "public/Views/index.ejs"))
 })
+app.get("/room/users/:id"  , async (req,res)=>{
+    const {id} = req.params;
+    getRoomById(id).then(data=>{
+        res.status(200).json(data);
+    }).catch(err=>{
+        return res.status(404).json("NOT FOUND");
+    })
 
+})
 app.get("/room/create/:id" ,async  (req,res)=>{
     //create room
     //add self user to db
@@ -57,7 +67,8 @@ app.get("/room/:room" ,async(req,res,next)=>{
     const {room} = req.params;
     console.log("room" , room);
     const roomInfo = await getRoomById(room);
-    if(!roomInfo && roomInfo.status !== "INACTIVE"){
+
+    if(!roomInfo || roomInfo.status === "INACTIVE"){
         res.status(404).send("NOT FOUND");
     }
     req.roomInfo = roomInfo;
@@ -90,6 +101,26 @@ io.on("connection" , (socket)=>{
         // socket.on("disconnect" , ()=>{
         //     socket.to(roomId).emit("user-disconnected" , userId);
         // })
+        socket.on("remove-user", async ()=>{
+            await removeResourceFromRoom(roomId , userId).catch(err=>{
+                console.error(err );
+            })
+        })
+        socket.on("micOn" , (user)=>{
+            console.log("micOn" , user);
+            socket.to(roomId).emit("turnOnMic" , user);
+        })
+        socket.on("micOff" , (user)=>{
+            console.log("micOff" , user);
+            
+            socket.to(roomId).emit("turnOffMic" , user);
+        })
+        socket.on("videoOff" , (user)=>{
+            socket.to(roomId).emit("turnOffVideo" , user);
+        })
+        socket.on("videoOn" , (user)=>{
+            socket.to(roomId).emit("turnOnVideo",user);
+        })
         socket.on("disconnect" , async ()=>{
             await removeResourceFromRoom(roomId , userId).catch(err=>{
                 console.error(err );

@@ -35,7 +35,9 @@ const removeResourceFromRoom = async (roomId,  devId) =>{
     if(result.resourcesConnected.length == 0){
         result.status = "INACTIVE";
     }
-    result.save();
+    result.save().catch(err=>{
+        return null;
+    });
     
 }
 const getRoomById = async ( id)=>{

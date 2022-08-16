@@ -1,6 +1,8 @@
 video{
-    width:30%;
-    height: 300px;
+    width:90%;
+    height: 250px;
+    left:0;
+    right:0;
  
 }
 
@@ -16,4 +18,10 @@ video{
 .controls {
     position: fixed;
     bottom: 0px;
+}
+.bg-red {
+    background-color: red;
+    width : 30%;
+    float:left;
+    margin:1px;
 }
